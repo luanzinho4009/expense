@@ -1,7 +1,7 @@
 import React from "react";
 import Loader from "react-loader-spinner";
 
-const LoadSpinner = () => {
+const LoadSpinner = (...rest) => {
   return (
     <Loader
       type="Puff"
@@ -9,6 +9,7 @@ const LoadSpinner = () => {
       height={100}
       width={100}
       timeout={3000}
+      {...rest}
     />
   );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import moment from "moment";
 import { FaTrash, FaEye } from "react-icons/fa";
-import { FiEdit } from "react-icons/fi";
+import { FiEdit, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import useExpensesContext from "../../context/expensesController";
 import LoadSpinner from "./../Spinner";
 
@@ -20,8 +20,19 @@ const ListExpenses = () => {
     openModalEdit,
     selected,
     selectExpense,
-    item,valor,descricao,
-    setItem,setValor,setDescricao
+    item,
+    valor,
+    descricao,
+    setItem,
+    setValor,
+    setDescricao,
+    update,
+    page,
+    nextPage,
+    previousPage,
+    verifyNextPage,
+    setVerifyNextPage,
+    getNextPageExpenses,
   } = useExpensesContext();
 
   function FormatData(data) {
@@ -30,30 +41,39 @@ const ListExpenses = () => {
   }
 
   useEffect(() => {
+    getNextPageExpenses(token, page);
+    console.log(verifyNextPage);
+  }, [page]);
+
+  useEffect(() => {
     if (token) {
-      getAllExpenses(token);
+      getAllExpenses(token, page);
     }
     console.log("home", expenses);
-  }, [deleted]);
+  }, [deleted || update || page]);
 
   return (
     <>
       {openModalView && (
         <ViewEditExpense
           Item={selected?.item}
-          Valor={selected?.value} 
-          Data={FormatData(selected?.date)} 
+          Valor={selected?.value}
+          Data={FormatData(selected?.date)}
           Descricao={selected?.additionalInfo.description}
         />
       )}
-      {openModalEdit && 
-      <ViewEditExpense 
-      edit 
-      id={selected?._id}
-      Item={item} SetItem={(e) => setItem(e.target.value)}
-      Valor={valor} SetValor={(e) => setValor(e.target.value)}
-      Descricao={descricao}  SetDescricao={(e) => setDescricao(e.target.value)}
-      />}
+      {openModalEdit && (
+        <ViewEditExpense
+          edit
+          id={selected?._id}
+          Item={item}
+          SetItem={(e) => setItem(e.target.value)}
+          Valor={valor}
+          SetValor={(e) => setValor(e.target.value)}
+          Descricao={descricao}
+          SetDescricao={(e) => setDescricao(e.target.value)}
+        />
+      )}
       <div id="list-expenses">
         <h1>Lista de Despesas</h1>
         <table className="table-expenses">
@@ -101,6 +121,25 @@ const ListExpenses = () => {
             </div>
           )}
         </table>
+        <div className="pagination">
+          <button
+            type="button"
+            className="button-arrow"
+            onClick={previousPage}
+            disabled={page === 1}
+          >
+            <FiChevronLeft className="arrow" />
+          </button>
+          <span>{page}</span>
+          <button
+            type="button"
+            className="button-arrow"
+            onClick={nextPage}
+            disabled={verifyNextPage.length === 0}
+          >
+            <FiChevronRight className="arrow" />
+          </button>
+        </div>
       </div>
     </>
   );

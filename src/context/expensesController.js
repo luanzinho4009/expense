@@ -9,13 +9,17 @@ export const ExpensesContextProvider = ({children}) => {
   const [email, setEmail] = useState("");
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loginLoading,setLoginLoading] = useState(false)
   const [deleted, setDeleted] = useState(false);
-  const [selected, setSelected] = useState([])
+  const [selected, setSelected] = useState([]);
+  const [update,setUpdate] = useState(false);
   const [openModalView, setOpenModalView] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [item, setItem] = useState();
   const [valor, setValor] = useState();
   const [descricao, setDescricao] = useState();
+  const [page,setPage] = useState(1);
+  const [verifyNextPage,setVerifyNextPage] = useState([]);
 
   useEffect(() => {
     const getStorageToken = sessionStorage.getItem("@App:token");
@@ -23,7 +27,7 @@ export const ExpensesContextProvider = ({children}) => {
     if(getStorageToken) {
       setToken(getStorageToken);
     }
-  },[token])
+  })
 
   const handleOpenModalView = () => {
     setOpenModalView(!openModalView);
@@ -54,10 +58,20 @@ export const ExpensesContextProvider = ({children}) => {
     setDeleted(!deleted);
   }
 
-  const getAllExpenses = async (token) => {
+  const nextPage = async () => {
+    if(verifyNextPage.length > 0){
+      setPage(page + 1);
+    }
+  }
+  const previousPage = () => {
+    if(page !== 1 ){
+      setPage(page - 1);
+    }
+  }
+  const getAllExpenses = async (token,page) => {
     await api
       .get(
-        "/expenses?page=1&perPage=10",
+        `/expenses?page=${page}&perPage=10`,
         {
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -73,10 +87,30 @@ export const ExpensesContextProvider = ({children}) => {
         console.log(err);
       });
   };
+  const getNextPageExpenses = async (token,page) => {
+    await api
+      .get(
+        `/expenses?page=${page + 1}&perPage=10`,
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        },
+      )
+      .then((res) => {
+        setVerifyNextPage(res.data);
+        console.log(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getTokenWithEmail = async (email) => {
       await api.get(`/start/${email}`).then(res => {
         console.log(res.data)
+        setLoginLoading(true);
         const storageToken = sessionStorage.setItem("@App:token", res.data.token);
         setToken(storageToken);
         console.log(token);
@@ -103,6 +137,12 @@ export const ExpensesContextProvider = ({children}) => {
       item,setItem,
       valor,setValor,
       descricao,setDescricao,
+      loginLoading,
+      update,setUpdate,
+      nextPage,previousPage,
+      page,
+      verifyNextPage,setVerifyNextPage,
+      getNextPageExpenses
     }}
     >
       {children}

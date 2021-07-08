@@ -46,7 +46,7 @@ const NewExpense = () => {
     setItem(" ");
     setValor(" ");
     setDescricao(" ");
-
+    alert("Despesa criada com sucesso!")
     console.log(data.item, data.valor, data.descricao);
   };
 

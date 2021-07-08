@@ -15,6 +15,7 @@ const ViewEditExpense = ({edit,id,Item,Valor,Descricao, Data, SetItem,SetValor,S
     item,
     valor,
     descricao,
+    setUpdate,update
   } = useExpensesContext();
 
   const onSubmit = async (e) => {
@@ -48,7 +49,9 @@ const ViewEditExpense = ({edit,id,Item,Valor,Descricao, Data, SetItem,SetValor,S
         },
       }
     );
-    
+    setUpdate(!update);
+    console.log(update); 
+    alert("Atualizado com sucesso!") 
   };
 
   return (

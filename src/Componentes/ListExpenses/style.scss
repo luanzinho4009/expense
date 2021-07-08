@@ -15,7 +15,6 @@
 
   .table-expenses{
     width: 90%;
-    height: 60%;
     border: 1px solid #ffffff;
     padding: 1rem;
     >tbody > tr > td a {
@@ -30,15 +29,31 @@
       }
     }
     th{
-      text-align: left;
+      text-align: center;
       font-size: 1.5rem;
       color: #F3ECD9;
       font-family: 'Roboto Condensed', sans-serif;
+      height: 80px;
+      border-bottom: 1px solid #ffffff;
+      padding-left: 0.2rem;
+      &:first-child{
+        text-align: left;
+      }
     }
     td{
       color: #DEE7FF;
       font-size: 1rem;
       font-family: "Roboto Mono", monospace;
+      height: 50px;
+      text-align: center;
+      &:first-child{
+        text-align: left;
+      }
+      &:last-child{
+        .options{
+          justify-content: center !important;
+        }
+      }
     }
     .options{
       display: flex;
@@ -60,5 +75,42 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .pagination{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    > span{
+      color: #DEE7FF;
+      font-size: 1.3rem;
+      font-family: "Roboto Mono", monospace;
+    }
+    .button-arrow{
+      border: 1px solid #DEE7FF;
+      background-color: transparent;
+      border-radius: 5px;
+      padding: 0.5rem 0.7rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+
+      .arrow{
+        color: #ffffff;
+        font-size: 1.3rem;
+      }
+
+      &:hover{
+        background-color: #F3ECD9;
+      }
+      &:disabled{
+        background-color: #545863;
+        .arrow{
+          color: #000000;
+        }
+      }
+    }
   }
 }
