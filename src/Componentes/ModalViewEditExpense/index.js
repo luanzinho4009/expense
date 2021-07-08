@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import useExpensesContext from "../../context/expensesController";
+import { FiX } from 'react-icons/fi'
 import Input from "../Inputs/input";
 
 import api from "./../../services/api";
 
 import "./style.scss";
 
-const NewExpense = () => {
-  const { token } = useExpensesContext();
-  const [item, setItem] = useState();
-  const [valor, setValor] = useState();
-  const [descricao, setDescricao] = useState();
+const ViewEditExpense = ({edit,id,Item,Valor,Descricao, Data, SetItem,SetValor,SetDescricao}) => {
+  const { 
+    token, 
+    handleOpenModalView, 
+    handleOpenModalEdit ,
+    item,
+    valor,
+    descricao,
+  } = useExpensesContext();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -26,8 +31,9 @@ const NewExpense = () => {
 
     const newValor = parseFloat(data.valor);
 
-    await api.post(
-      "/expenses",
+    
+    await api.put(
+      `/expenses/${id}`,
       {
         date: dateFormatada,
         item: data.item,
@@ -42,49 +48,58 @@ const NewExpense = () => {
         },
       }
     );
-
-    setItem(" ");
-    setValor(" ");
-    setDescricao(" ");
-
-    console.log(data.item, data.valor, data.descricao);
+    
   };
 
   return (
-    <div id="new-expense">
-      <div className="new-expense-container">
+    <div id="ViewEdit-expense">
+      {edit ? 
+      <div className="edit-expense-container">
+        <div className="close"><FiX className="icon" onClick={handleOpenModalEdit} /></div>
         <form className="form" onSubmit={onSubmit}>
           <Input
             label="Nome do item:"
             type="text"
             name="item"
-            value={item}
-            onChange={(e) => setItem(e.target.value)}
+            value={Item}
+            onChange={SetItem}
           />
           <Input
             label="Valor"
             className="input"
             type="text"
             name="valor"
-            value={valor}
-            onChange={(e) => setValor(e.target.value)}
+            value={Valor}
+            onChange={SetValor}
           />
           <Input
-            label="Descrição:"
+            label="Descrição"
             textarea
             className="input-area"
             type="textarea"
             name="description"
-            value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
+            value={Descricao}
+            onChange={SetDescricao}
           />
           <button type="submit" className="button">
-            Criar
+            Salvar
           </button>
         </form>
+        
       </div>
+      :
+      <div className="view-expense-container">
+       <div className="close"><FiX className="icon" onClick={handleOpenModalView} /></div>
+        <div className="items">
+          <span>Nome do item: <br /> <strong>{Item}</strong></span>
+          <span>Valor: <br /> <strong>{Valor}</strong></span>
+          <span>Data de criação:<br /> <strong>{Data}</strong></span>
+          <span>Descrição:<br /> <strong>{Descricao}</strong></span>
+        </div>
+      </div>
+    }
     </div>
   );
 };
 
-export default NewExpense;
+export default ViewEditExpense;

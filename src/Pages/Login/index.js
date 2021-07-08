@@ -4,7 +4,7 @@ import useExpensesContext from "../../context/expensesController";
 import "./style.scss";
 
 const Login = () => {
-  const { setState, email, setEmail, getTokenWithEmail } =
+  const { email, setEmail, getTokenWithEmail } =
     useExpensesContext();
 
     const onSubmit = async (e) => {
@@ -15,7 +15,6 @@ const Login = () => {
         }
 
         await getTokenWithEmail(email);
-        setState("list");
     }
 
   return (

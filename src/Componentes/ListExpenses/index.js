@@ -1,18 +1,31 @@
-import React,{ useEffect } from 'react';
-import moment from 'moment';
-import { FaTrash, FaEye } from 'react-icons/fa'
-import useExpensesContext from '../../context/expensesController';
-import LoadSpinner from './../Spinner';
+import React, { useEffect } from "react";
+import moment from "moment";
+import { FaTrash, FaEye } from "react-icons/fa";
+import { FiEdit } from "react-icons/fi";
+import useExpensesContext from "../../context/expensesController";
+import LoadSpinner from "./../Spinner";
 
-
-import './style.scss'
-
+import "./style.scss";
+import ViewEditExpense from "../ModalViewEditExpense";
 
 const ListExpenses = () => {
-  const  { token, expenses, getAllExpenses, loading, deleted, DeleteExpense } = useExpensesContext()
-  
-  function FormatData(data){
-    data = moment().format('DD-MM-YYYY');
+  const {
+    token,
+    expenses,
+    getAllExpenses,
+    loading,
+    deleted,
+    DeleteExpense,
+    openModalView,
+    openModalEdit,
+    selected,
+    selectExpense,
+    item,valor,descricao,
+    setItem,setValor,setDescricao
+  } = useExpensesContext();
+
+  function FormatData(data) {
+    data = moment().format("DD-MM-YYYY");
     return data;
   }
 
@@ -20,47 +33,77 @@ const ListExpenses = () => {
     if (token) {
       getAllExpenses(token);
     }
-    console.log("home",expenses);
-  },[deleted]);
+    console.log("home", expenses);
+  }, [deleted]);
 
-  return(
-    <div id="list-expenses">
-      <h1>Lista de Despesas</h1>
-      <table className="table-expenses">
-        {!loading ? 
-        <>
-        <tr>
-          <th>Nome</th>
-          <th>Valor</th>
-          <th>Data</th>
-          <th>Ações</th>
-        </tr>
-        <tbody>
-          {expenses.map(expense => {
-            return(
-              <tr key={expense._id}>
-                <td><a href="#" >{expense.item} </a></td>
-                <td>{expense.value}</td>
-                <td>{FormatData(expense.date)}</td>
-                <td>
-                  <div className="options">
-                    <FaTrash className="icon" onClick={() => DeleteExpense(expense._id, token)} />
-                    <FaEye className="icon" />
-                  </div>
-                </td>
+  return (
+    <>
+      {openModalView && (
+        <ViewEditExpense
+          Item={selected?.item}
+          Valor={selected?.value} 
+          Data={FormatData(selected?.date)} 
+          Descricao={selected?.additionalInfo.description}
+        />
+      )}
+      {openModalEdit && 
+      <ViewEditExpense 
+      edit 
+      id={selected?._id}
+      Item={item} SetItem={(e) => setItem(e.target.value)}
+      Valor={valor} SetValor={(e) => setValor(e.target.value)}
+      Descricao={descricao}  SetDescricao={(e) => setDescricao(e.target.value)}
+      />}
+      <div id="list-expenses">
+        <h1>Lista de Despesas</h1>
+        <table className="table-expenses">
+          {!loading ? (
+            <>
+              <tr>
+                <th>Nome</th>
+                <th>Valor</th>
+                <th>Data</th>
+                <th>Ações</th>
               </tr>
-            );
-          })}
-        </tbody>
-        </>
-        :
-        <div className="loading">
-          <LoadSpinner />
-        </div>
-        }
-      </table>
-    </div>
+              <tbody>
+                {expenses.map((expense, index) => {
+                  return (
+                    <tr key={expense._id}>
+                      <td>
+                        <a href="#">{expense.item} </a>
+                      </td>
+                      <td>{expense.value}</td>
+                      <td>{FormatData(expense.date)}</td>
+                      <td>
+                        <div className="options">
+                          <FaTrash
+                            className="icon"
+                            onClick={() => DeleteExpense(expense._id, token)}
+                          />
+                          <FiEdit
+                            className="icon"
+                            onClick={() => selectExpense(index, true)}
+                          />
+                          <FaEye
+                            className="icon"
+                            onClick={() => selectExpense(index, false)}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </>
+          ) : (
+            <div className="loading">
+              <LoadSpinner />
+            </div>
+          )}
+        </table>
+      </div>
+    </>
   );
-}
+};
 
 export default ListExpenses;

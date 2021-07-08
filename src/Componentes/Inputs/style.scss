@@ -1,0 +1,29 @@
+#form-group{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  label {
+    font-size: 1.5rem;
+    font-family: "Roboto Mono", monospace;
+    color: #ABB1C1;
+    text-align: left;
+  }
+
+  .input, .input-area{
+    width: 95%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #DEE7FF;
+    background-color: transparent;
+    color: #DEE7FF;
+    font-size: 1rem;
+    font-family: "Roboto Mono", monospace;
+    padding-left: 10px;
+  }
+  .input-area{
+    height:150px;
+  }
+
+}

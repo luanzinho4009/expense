@@ -10,6 +10,12 @@ export const ExpensesContextProvider = ({children}) => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
+  const [selected, setSelected] = useState([])
+  const [openModalView, setOpenModalView] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [item, setItem] = useState();
+  const [valor, setValor] = useState();
+  const [descricao, setDescricao] = useState();
 
   useEffect(() => {
     const getStorageToken = sessionStorage.getItem("@App:token");
@@ -18,6 +24,26 @@ export const ExpensesContextProvider = ({children}) => {
       setToken(getStorageToken);
     }
   },[token])
+
+  const handleOpenModalView = () => {
+    setOpenModalView(!openModalView);
+  }
+  const handleOpenModalEdit = () => {
+    setOpenModalEdit(!openModalEdit);
+  }
+
+  const selectExpense = (index, edit) => {
+    setSelected(expenses[index]);
+    if(edit) {
+      setOpenModalEdit(true)
+      setItem(expenses[index].item);
+      setValor(expenses[index].value);
+      setDescricao(expenses[index].additionalInfo.description);
+    }else {
+      setOpenModalView(true);
+    }
+    console.log("cliquei")
+  }
 
   const DeleteExpense = async (id,token) => {
     await api.delete(`/expenses/${id}`,{
@@ -67,7 +93,16 @@ export const ExpensesContextProvider = ({children}) => {
       expenses,setExpenses,
       getAllExpenses,
       deleted,setDeleted,
-      DeleteExpense
+      DeleteExpense,
+      handleOpenModalView,
+      handleOpenModalEdit,
+      selectExpense,
+      selected,
+      openModalView,
+      openModalEdit,
+      item,setItem,
+      valor,setValor,
+      descricao,setDescricao,
     }}
     >
       {children}
