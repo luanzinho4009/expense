@@ -8,16 +8,45 @@ export const ExpensesContextProvider = ({children}) => {
   const [expenses, setExpenses] = useState([]);
   const [email, setEmail] = useState("");
   const [token, setToken] = useState(null);
-  const [state,setState] = useState("Login");
+  const [loading, setLoading] = useState(true);
+  const [deleted, setDeleted] = useState(false);
 
   useEffect(() => {
     const getStorageToken = sessionStorage.getItem("@App:token");
 
     if(getStorageToken) {
       setToken(getStorageToken);
-      setState("list");
     }
   },[token])
+
+  const DeleteExpense = async (id,token) => {
+    await api.delete(`/expenses/${id}`,{
+      headers: {
+        Authorization : `Bearer ${token}`
+      }
+    });
+    setDeleted(!deleted);
+  }
+
+  const getAllExpenses = async (token) => {
+    await api
+      .get(
+        "/expenses?page=1&perPage=10",
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        },
+      )
+      .then((res) => {
+        setExpenses(res.data);
+        console.log(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getTokenWithEmail = async (email) => {
       await api.get(`/start/${email}`).then(res => {
@@ -33,8 +62,12 @@ export const ExpensesContextProvider = ({children}) => {
     value={{
       email, setEmail,
       token,
-      state, setState,
-      getTokenWithEmail
+      loading, setLoading,
+      getTokenWithEmail,
+      expenses,setExpenses,
+      getAllExpenses,
+      deleted,setDeleted,
+      DeleteExpense
     }}
     >
       {children}

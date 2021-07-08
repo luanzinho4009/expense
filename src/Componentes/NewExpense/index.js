@@ -15,7 +15,7 @@ const NewExpense = () => {
     e.preventDefault();
     let date = new Date();
     let dateFormatada =
-    date.getFullYear() + "-" + (date.getMonth() + 1) + "-"  + date.getDate();
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
     const data = {
       item,

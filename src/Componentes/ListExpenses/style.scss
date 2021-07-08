@@ -1,0 +1,64 @@
+#list-expenses{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 40px;
+  h1{
+    font-size: 3rem;
+    font-family: "Roboto Mono", monospace;
+    color: #F3ECD9;
+    text-align: center;
+  }
+
+  .table-expenses{
+    width: 90%;
+    height: 60%;
+    border: 1px solid #ffffff;
+    padding: 1rem;
+    >tbody > tr > td a {
+      color:#ABB1C1;
+      font-size: 1rem;
+      font-family: "Roboto Mono", monospace;
+      text-decoration: none;
+      transition: all 0.5s ease-out;
+
+      &:hover{
+        color:#DEE7FF;
+      }
+    }
+    th{
+      text-align: left;
+      font-size: 1.5rem;
+      color: #F3ECD9;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+    td{
+      color: #DEE7FF;
+      font-size: 1rem;
+      font-family: "Roboto Mono", monospace;
+    }
+    .options{
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      .icon{
+        color:#ABB1C1;
+        cursor: pointer;
+        font-size: 1.2rem;
+        &:hover{
+          color:#DEE7FF;
+        }
+      }
+    }
+  }
+  .loading{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
