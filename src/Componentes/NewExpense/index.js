@@ -8,8 +8,23 @@ import api from "./../../services/api";
 import "./style.scss";
 
 const NewExpense = () => {
-  const { token, item, valor, descricao, setItem, setValor, setDescricao } =
-    useExpensesContext();
+  const {
+    token,
+    item,
+    value,
+    description,
+    setItem,
+    setValue,
+    setDescription,
+    payBoleto,
+    setPayBoleto,
+    payCartao,
+    setPayCartao,
+    installments,
+    setInstallments,
+    paidInstallments,
+    setPaidInstallments,
+  } = useExpensesContext();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -19,11 +34,19 @@ const NewExpense = () => {
 
     const data = {
       item,
-      valor,
-      descricao,
+      value,
+      description,
+      payBoleto,
+      payCartao,
+      installments,
+      paidInstallments
     };
 
-    const newValor = parseFloat(data.valor);
+    const newValor = parseFloat(data.value);
+    const remainingInstallments = Math.ceil(data.installments - data.paidInstallments);
+    const amountPaid = Math.ceil((newValor 
+      / (data.installments !== 0 ? data.installments : 1)) 
+      * (data.paidInstallments !== 0 ? data.paidInstallments : 1))
 
     await api.post(
       "/expenses",
@@ -32,7 +55,13 @@ const NewExpense = () => {
         item: data.item,
         value: newValor,
         additionalInfo: {
-          description: data.descricao,
+          description: data.description,
+          payCartao: data.payCartao ? true : false,
+          payBoleto: data.payBoleto ? true : false,
+          installments: data.installments,
+          paidInstallments: data.paidInstallments,
+          remainingInstallments: remainingInstallments,
+          amountPaid: amountPaid
         },
       },
       {
@@ -43,10 +72,13 @@ const NewExpense = () => {
     );
 
     setItem(" ");
-    setValor(" ");
-    setDescricao(" ");
+    setValue(" ");
+    setDescription(" ");
+    setInstallments(" ");
+    setPaidInstallments(" ")
+    setPayBoleto(false)
+    setPayCartao(false);
     alert("Despesa criada com sucesso!");
-    console.log(data.item, data.valor, data.descricao);
   };
 
   return (
@@ -63,21 +95,57 @@ const NewExpense = () => {
           />
           <Input
             label="Valor Total:"
-            className="input"
             type="text"
             name="valor"
-            value={valor}
-            onChange={(e) => setValor(e.target.value)}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
           />
           <Input
             label="Descrição:"
             textarea
-            className="input-area"
             type="textarea"
             name="description"
-            value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
+          <div className="checkboxs">
+            <input
+              type="checkbox"
+              name="boleto"
+              className="checkbox"
+              value={payBoleto}
+              onChange={(e) => setPayBoleto(e.target.checked)}
+              disabled={payCartao}
+            />
+            <label for="boleto">Pago no boleto</label>
+            <input
+              type="checkbox"
+              name="cartao"
+              className="checkbox"
+              value={payCartao}
+              onChange={(e) => setPayCartao(e.target.checked)}
+              disabled={payBoleto}
+            />
+            <label for="cartao">Pago no cartão</label>
+          </div>
+          {payCartao && (
+            <>
+              <Input
+                label="Quantidade de parcelas:"
+                type="text"
+                name="installments"
+                value={installments}
+                onChange={(e) => setInstallments(e.target.value)}
+              />
+              <Input
+                label="Parcelas já pagas:"
+                type="text"
+                name="paidInstallments"
+                value={paidInstallments}
+                onChange={(e) => setPaidInstallments(e.target.value)}
+              />
+            </>
+          )}
           <button type="submit" className="button">
             Criar
           </button>

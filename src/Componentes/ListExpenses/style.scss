@@ -71,6 +71,22 @@
       }
     }
   }
+  .not-expenses{
+    width: 70%;
+    h1{
+      color: var(--dark);
+      font-size: 2.5rem;
+      font-family: "Roboto Mono", monospace;     
+      a{
+        text-decoration: none;
+        color: var(--green);
+        transition: color 0.5s ease-in-out;
+        &:hover{
+          color: var(--purple);
+        }
+      }
+    }
+  }
   .loading {
     width: 100%;
     height: 100%;

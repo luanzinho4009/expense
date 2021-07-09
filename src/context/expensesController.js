@@ -16,8 +16,12 @@ export const ExpensesContextProvider = ({children}) => {
   const [openModalView, setOpenModalView] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [item, setItem] = useState();
-  const [valor, setValor] = useState();
-  const [descricao, setDescricao] = useState();
+  const [value, setValue] = useState();
+  const [description, setDescription] = useState();
+  const [payBoleto,setPayBoleto] = useState();
+  const [payCartao,setPayCartao] = useState();
+  const [installments,setInstallments] = useState()
+  const [paidInstallments, setPaidInstallments] = useState();
   const [page,setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [verifyNextPage,setVerifyNextPage] = useState([]);
@@ -42,8 +46,12 @@ export const ExpensesContextProvider = ({children}) => {
     if(edit) {
       setOpenModalEdit(true)
       setItem(expenses[index].item);
-      setValor(expenses[index].value);
-      setDescricao(expenses[index].additionalInfo.description);
+      setValue(expenses[index].value);
+      setDescription(expenses[index].additionalInfo.description);
+      setPayBoleto(expenses[index].additionalInfo.payBoleto);
+      setPayCartao(expenses[index].additionalInfo.payCartao);
+      setInstallments(expenses[index].additionalInfo.installments);
+      setPaidInstallments(expenses[index].additionalInfo.paidInstallments);
     }else {
       setOpenModalView(true);
     }
@@ -135,12 +143,16 @@ export const ExpensesContextProvider = ({children}) => {
       openModalView,
       openModalEdit,
       item,setItem,
-      valor,setValor,
-      descricao,setDescricao,
+      value,setValue,
+      description,setDescription,
+      payBoleto, setPayBoleto,
+      payCartao,setPayCartao,
+      installments,setInstallments,
+      paidInstallments,setPaidInstallments,
       loginLoading,setLoginLoading,
       update,setUpdate,
       nextPage,previousPage,
-      page,
+      page,setPage,
       perPage,setPerPage,
       verifyNextPage,setVerifyNextPage,
       getNextPageExpenses
