@@ -19,6 +19,7 @@ export const ExpensesContextProvider = ({children}) => {
   const [valor, setValor] = useState();
   const [descricao, setDescricao] = useState();
   const [page,setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
   const [verifyNextPage,setVerifyNextPage] = useState([]);
 
   useEffect(() => {
@@ -68,10 +69,10 @@ export const ExpensesContextProvider = ({children}) => {
       setPage(page - 1);
     }
   }
-  const getAllExpenses = async (token,page) => {
+  const getAllExpenses = async (token,page,perPage) => {
     await api
       .get(
-        `/expenses?page=${page}&perPage=10`,
+        `/expenses?page=${page}&perPage=${perPage}`,
         {
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -87,10 +88,10 @@ export const ExpensesContextProvider = ({children}) => {
         console.log(err);
       });
   };
-  const getNextPageExpenses = async (token,page) => {
+  const getNextPageExpenses = async (token,page,perPage) => {
     await api
       .get(
-        `/expenses?page=${page + 1}&perPage=10`,
+        `/expenses?page=${page + 1}&perPage=${perPage}`,
         {
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -141,6 +142,7 @@ export const ExpensesContextProvider = ({children}) => {
       update,setUpdate,
       nextPage,previousPage,
       page,
+      perPage,setPerPage,
       verifyNextPage,setVerifyNextPage,
       getNextPageExpenses
     }}

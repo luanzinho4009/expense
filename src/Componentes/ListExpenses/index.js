@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { FaTrash, FaEye } from "react-icons/fa";
 import { FiEdit, FiChevronLeft, FiChevronRight } from "react-icons/fi";
@@ -31,26 +31,39 @@ const ListExpenses = () => {
     nextPage,
     previousPage,
     verifyNextPage,
-    setVerifyNextPage,
+    perPage,
+    setPerPage,
     getNextPageExpenses,
   } = useExpensesContext();
+  const [value, setValue] = useState(" ");
 
   function FormatData(data) {
     data = moment().format("DD-MM-YYYY");
     return data;
   }
+  const QtdItensPerPage = () => {
+    if(value !== " "){
+      setPerPage(value);
+    }
+  };
+  const options = [
+    { value: " ", label: "Qtd. de itens por página" },
+    { value: "10", label: "10 itens por página" },
+    { value: "15", label: "15 itens por página" },
+    { value: "20", label: "20 itens por página" },
+  ];
 
   useEffect(() => {
-    getNextPageExpenses(token, page);
-    console.log(verifyNextPage);
-  }, [page]);
+    getNextPageExpenses(token, page, perPage);
+    console.log("verify", verifyNextPage);
+  }, [page, deleted, perPage]);
 
   useEffect(() => {
     if (token) {
-      getAllExpenses(token, page);
+      getAllExpenses(token, page, perPage);
     }
     console.log("home", expenses);
-  }, [deleted || update || page]);
+  }, [deleted, update, page, perPage]);
 
   return (
     <>
@@ -76,6 +89,16 @@ const ListExpenses = () => {
       )}
       <div id="list-expenses">
         <h1>Lista de Despesas</h1>
+        <div className="filter">
+          <select placeholder="Quantidade de itens por página" onChange={(e) => setValue(e.target.value)} value={value}>
+            {options.map((option, index) => {
+              return <option value={option.value}>{option.label}</option>;
+            })}
+          </select>
+          <button type="button" onClick={QtdItensPerPage}>
+            Filtrar
+          </button>
+        </div>
         <table className="table-expenses">
           {!loading ? (
             <>
