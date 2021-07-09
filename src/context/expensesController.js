@@ -111,7 +111,6 @@ export const ExpensesContextProvider = ({children}) => {
   const getTokenWithEmail = async (email) => {
       await api.get(`/start/${email}`).then(res => {
         console.log(res.data)
-        setLoginLoading(true);
         const storageToken = sessionStorage.setItem("@App:token", res.data.token);
         setToken(storageToken);
         console.log(token);
@@ -138,7 +137,7 @@ export const ExpensesContextProvider = ({children}) => {
       item,setItem,
       valor,setValor,
       descricao,setDescricao,
-      loginLoading,
+      loginLoading,setLoginLoading,
       update,setUpdate,
       nextPage,previousPage,
       page,

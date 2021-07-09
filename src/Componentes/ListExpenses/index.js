@@ -42,12 +42,13 @@ const ListExpenses = () => {
     return data;
   }
   const QtdItensPerPage = () => {
-    if(value !== " "){
+    if (value !== " ") {
       setPerPage(value);
     }
   };
   const options = [
     { value: " ", label: "Qtd. de itens por página" },
+    { value: "5", label: "5 itens por página" },
     { value: "10", label: "10 itens por página" },
     { value: "15", label: "15 itens por página" },
     { value: "20", label: "20 itens por página" },
@@ -90,7 +91,11 @@ const ListExpenses = () => {
       <div id="list-expenses">
         <h1>Lista de Despesas</h1>
         <div className="filter">
-          <select placeholder="Quantidade de itens por página" onChange={(e) => setValue(e.target.value)} value={value}>
+          <select
+            placeholder="Quantidade de itens por página"
+            onChange={(e) => setValue(e.target.value)}
+            value={value}
+          >
             {options.map((option, index) => {
               return <option value={option.value}>{option.label}</option>;
             })}

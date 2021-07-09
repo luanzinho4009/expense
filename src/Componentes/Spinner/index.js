@@ -1,15 +1,15 @@
 import React from "react";
 import Loader from "react-loader-spinner";
 
-const LoadSpinner = (...rest) => {
+import './style.scss'
+
+const LoadSpinner = () => {
   return (
     <Loader
       type="Puff"
-      color="#DEE7FF"
-      height={100}
-      width={100}
+      color="var(--blue-dark)"
       timeout={3000}
-      {...rest}
+      className="spinner"
     />
   );
 };

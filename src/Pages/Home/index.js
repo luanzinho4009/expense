@@ -1,17 +1,13 @@
-import React, { useEffect } from "react";
-//context
-import useExpensesContext from "../../context/expensesController";
+import React from "react";
 
-//api
-import api from "./../../services/api";
+import logo from "../../assets/images/expense.jpg";
 
 import "./style.scss";
 
 const Home = () => {
-  const { token, expenses, getAllExpenses} = useExpensesContext();
-
   return (
     <div id="home">
+      <img src={logo} alt="logo" className="logo" />
       <h1>Bem vindo!</h1>
       <h1>
         <a href="/list-expenses">Cliqe aqui!</a> e veja sua lista de despesas,

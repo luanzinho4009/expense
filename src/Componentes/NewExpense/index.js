@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import useExpensesContext from "../../context/expensesController";
 import Input from "../Inputs/input";
+import newExpense from "../../assets/images/newExpense.png";
 
 import api from "./../../services/api";
 
 import "./style.scss";
 
 const NewExpense = () => {
-  const { token } = useExpensesContext();
-  const [item, setItem] = useState();
-  const [valor, setValor] = useState();
-  const [descricao, setDescricao] = useState();
+  const { token, item, valor, descricao, setItem, setValor, setDescricao } =
+    useExpensesContext();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -46,12 +45,13 @@ const NewExpense = () => {
     setItem(" ");
     setValor(" ");
     setDescricao(" ");
-    alert("Despesa criada com sucesso!")
+    alert("Despesa criada com sucesso!");
     console.log(data.item, data.valor, data.descricao);
   };
 
   return (
     <div id="new-expense">
+      <img src={newExpense} alt="logo" className="logo" />
       <div className="new-expense-container">
         <form className="form" onSubmit={onSubmit}>
           <Input
@@ -62,7 +62,7 @@ const NewExpense = () => {
             onChange={(e) => setItem(e.target.value)}
           />
           <Input
-            label="Valor"
+            label="Valor Total:"
             className="input"
             type="text"
             name="valor"

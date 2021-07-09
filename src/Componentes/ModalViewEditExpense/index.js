@@ -61,21 +61,26 @@ const ViewEditExpense = ({edit,id,Item,Valor,Descricao, Data, SetItem,SetValor,S
         <div className="close"><FiX className="icon" onClick={handleOpenModalEdit} /></div>
         <form className="form" onSubmit={onSubmit}>
           <Input
+            modal
             label="Nome do item:"
             type="text"
             name="item"
             value={Item}
             onChange={SetItem}
+            style={{border:"1px solid var(--light)", color:"var(--light)"}}
           />
           <Input
-            label="Valor"
+            modal
+            label="Valor Total:"
             className="input"
             type="text"
             name="valor"
             value={Valor}
             onChange={SetValor}
+            style={{border:"1px solid var(--light)", color:"var(--light)"}}
           />
           <Input
+            modal
             label="Descrição"
             textarea
             className="input-area"
@@ -83,6 +88,7 @@ const ViewEditExpense = ({edit,id,Item,Valor,Descricao, Data, SetItem,SetValor,S
             name="description"
             value={Descricao}
             onChange={SetDescricao}
+            style={{border:"1px solid var(--light)", color:"var(--light)"}}
           />
           <button type="submit" className="button">
             Salvar

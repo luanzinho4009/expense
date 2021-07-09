@@ -1,13 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto+Mono:wght@600&display=swap');
 
 
+:root {
+  --dark:  #343a40;
+  --blue: #17a2b8;
+  --light: #f8f9fa;
+  --purple: #6f42c1;
+  --green:#20c997;
+  --black : #000000;
+  --gray:#6c757d;
+  --blue-dark: #001f3f;
+  --red:#dc3545;
+}
+
 *{ 
   margin: 0;
   padding: 0;
 }
 
 body {
-  background-color: #262626;
+  background-color: var(--light);
 }
 
 .app-container{
@@ -20,7 +32,7 @@ body {
 
   .body{
     width: 80%;
-    padding-right: 1rem;
+    padding: 2rem;
   }
   .body-login{
     width:100%;
