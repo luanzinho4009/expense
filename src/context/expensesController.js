@@ -68,7 +68,6 @@ export const ExpensesContextProvider = ({children}) => {
     }else {
       setOpenModalView(true);
     }
-    console.log("cliquei")
   }
 
   const DeleteExpense = async (id,token) => {
@@ -106,7 +105,6 @@ export const ExpensesContextProvider = ({children}) => {
         } else {
           setExpenses(res.data.sort(OrderNamesB));
         }
-        console.log(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -125,7 +123,6 @@ export const ExpensesContextProvider = ({children}) => {
       )
       .then((res) => {
         setVerifyNextPage(res.data);
-        console.log(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -135,7 +132,6 @@ export const ExpensesContextProvider = ({children}) => {
 
   const getTokenWithEmail = async (email) => {
       await api.get(`/start/${email}`).then(res => {
-        console.log(res.data)
         const storageToken = sessionStorage.setItem("@App:token", res.data.token);
         setToken(storageToken);
         console.log(token);
