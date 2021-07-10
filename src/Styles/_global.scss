@@ -33,6 +33,16 @@ body {
   .body{
     width: 80%;
     padding: 2rem;
+    @media(max-width: 768px){
+      padding: 1rem;
+      margin-left: 60px;
+      width: 100%;
+    }
+    @media(max-width: 550px){
+      padding: 0;
+      margin-left: 65px;
+      width: 100%;
+    }
   }
   .body-login{
     width:100%;

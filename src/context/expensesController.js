@@ -25,6 +25,7 @@ export const ExpensesContextProvider = ({children}) => {
   const [page,setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [verifyNextPage,setVerifyNextPage] = useState([]);
+  const [menuController,setMenuController] = useState(false);
 
   useEffect(() => {
     const getStorageToken = sessionStorage.getItem("@App:token");
@@ -33,6 +34,14 @@ export const ExpensesContextProvider = ({children}) => {
       setToken(getStorageToken);
     }
   })
+
+  // function OrderNames = () => {
+
+  // }
+
+  const handleMenu = () => {
+    setMenuController(!menuController);
+  }
 
   const handleOpenModalView = () => {
     setOpenModalView(!openModalView);
@@ -155,7 +164,9 @@ export const ExpensesContextProvider = ({children}) => {
       page,setPage,
       perPage,setPerPage,
       verifyNextPage,setVerifyNextPage,
-      getNextPageExpenses
+      getNextPageExpenses,
+      menuController, handleMenu,
+      setMenuController,
     }}
     >
       {children}

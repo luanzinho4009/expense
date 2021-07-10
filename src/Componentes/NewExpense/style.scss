@@ -61,4 +61,10 @@
       }
     }
   }
+  @media(max-width: 768px){
+    .logo{
+      width: 200px;
+      height: 150px;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { FaTrash, FaEye } from "react-icons/fa";
+import { CgArrowsExchangeV } from "react-icons/cg";
 import { FiEdit, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import useExpensesContext from "../../context/expensesController";
 import LoadSpinner from "./../Spinner";
@@ -45,6 +46,20 @@ const ListExpenses = () => {
     getNextPageExpenses,
   } = useExpensesContext();
   const [valueOptions, setValueOptions] = useState(" ");
+  const [flags, setFlags] = useState();
+
+  const showFlags = () => {
+    if (window.innerWidth <= 550) {
+      setFlags(false);
+    } else {
+      setFlags(true);
+    }
+  };
+  useEffect(() => {
+    showFlags();
+  });
+
+  window.addEventListener("resize", showFlags);
 
   function FormatData(data) {
     data = moment().format("DD-MM-YYYY");
@@ -129,6 +144,7 @@ const ListExpenses = () => {
             <button type="button" onClick={QtdItensPerPage}>
               Filtrar
             </button>
+            <CgArrowsExchangeV className="icon" />
           </div>
         )}
         {expenses.length > 0 ? (
@@ -138,18 +154,16 @@ const ListExpenses = () => {
                 <tr>
                   <th>Nome</th>
                   <th>Valor</th>
-                  <th>Data</th>
+                  {flags && <th>Data</th>}
                   <th>Ações</th>
                 </tr>
                 <tbody>
                   {expenses.map((expense, index) => {
                     return (
                       <tr key={expense._id}>
-                        <td>
-                          <a href="#">{expense.item} </a>
-                        </td>
+                        <td>{expense.item}</td>
                         <td>{expense.value}</td>
-                        <td>{FormatData(expense.date)}</td>
+                        {flags && <td>{FormatData(expense.date)}</td>}
                         <td>
                           <div className="options">
                             <FaTrash

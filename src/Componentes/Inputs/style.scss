@@ -32,4 +32,9 @@
     color: var(--light);
     text-align: left;
   }
+  @media(max-width: 550px){
+    .label {
+      font-size: 1.2rem;
+    }
+  }
 }

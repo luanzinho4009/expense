@@ -1,14 +1,24 @@
-import React from "react";
+import React,{ useState, useEffect } from "react";
 import { FaListAlt, FaHome } from "react-icons/fa";
 import { MdQueue } from "react-icons/md";
+import { BiMenuAltLeft, BiMenuAltRight } from 'react-icons/bi';
 
 import "./style.scss";
+import useExpensesContext from "../../context/expensesController";
 
 const MenuLateral = () => {
+  const { menuController, handleMenu } = useExpensesContext();
+
   return (
     <div id="menu">
-      <div className="menu-container">
-        <a href="/" className="nav-item">
+      <div className="icon-menu">
+        {!menuController ? 
+        <BiMenuAltLeft className="icon" onClick={handleMenu} /> :
+        <BiMenuAltRight className="icon" onClick={handleMenu} />
+        }
+      </div>
+      <div className={menuController ? "menu-container close" : "menu-container"}>
+        <a href="/" className="nav-item" >
           <FaHome className="icon" />
           <span>Home</span>
         </a>

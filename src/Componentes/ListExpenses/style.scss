@@ -176,4 +176,38 @@
       }
     }
   }
+  @media(max-width: 550px){
+    h1{
+      font-size: 2.5rem;
+    }
+    .filter {
+      flex-direction: column;
+      align-items: flex-end;
+      select {
+        width: 230px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .table-expenses{
+      width: 70%;
+      th{
+        font-size:1.2rem;
+      }
+      tbody tr td {
+        font-size: 0.8rem;
+        &:first-child{
+          font-size: 0.8rem;
+        }
+
+        .options{
+          gap: 5px;
+          .icon{
+            font-size:1rem;
+          }
+        }
+      }
+    }
+  }
 }
