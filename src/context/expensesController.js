@@ -26,6 +26,7 @@ export const ExpensesContextProvider = ({children}) => {
   const [perPage, setPerPage] = useState(10);
   const [verifyNextPage,setVerifyNextPage] = useState([]);
   const [menuController,setMenuController] = useState(false);
+  const [order,setOrder] = useState(true);
 
   useEffect(() => {
     const getStorageToken = sessionStorage.getItem("@App:token");
@@ -35,9 +36,12 @@ export const ExpensesContextProvider = ({children}) => {
     }
   })
 
-  // function OrderNames = () => {
-
-  // }
+  const OrderNamesA = (a,b) => {
+    return (a.item > b.item) ? 1 : ((b.item > a.item) ? -1 : 0);
+  }
+  const OrderNamesB = (a,b) => {
+    return (b.item > a.item) ? 1 : ((a.item > b.item) ? -1 : 0);
+  }
 
   const handleMenu = () => {
     setMenuController(!menuController);
@@ -97,7 +101,11 @@ export const ExpensesContextProvider = ({children}) => {
         },
       )
       .then((res) => {
-        setExpenses(res.data);
+        if(order) {
+          setExpenses(res.data.sort(OrderNamesA));
+        } else {
+          setExpenses(res.data.sort(OrderNamesB));
+        }
         console.log(res.data);
         setLoading(false);
       })
@@ -167,6 +175,7 @@ export const ExpensesContextProvider = ({children}) => {
       getNextPageExpenses,
       menuController, handleMenu,
       setMenuController,
+      order, setOrder
     }}
     >
       {children}

@@ -44,6 +44,7 @@ const ListExpenses = () => {
     perPage,
     setPerPage,
     getNextPageExpenses,
+    order,setOrder,
   } = useExpensesContext();
   const [valueOptions, setValueOptions] = useState(" ");
   const [flags, setFlags] = useState();
@@ -91,7 +92,7 @@ const ListExpenses = () => {
       getAllExpenses(token, page, perPage);
     }
     console.log("home", expenses);
-  }, [deleted, update, page, perPage]);
+  }, [deleted, update, page, perPage,order]);
 
   return (
     <>
@@ -144,7 +145,7 @@ const ListExpenses = () => {
             <button type="button" onClick={QtdItensPerPage}>
               Filtrar
             </button>
-            <CgArrowsExchangeV className="icon" />
+            <CgArrowsExchangeV className="icon-filter" onClick={() => setOrder(!order)} />
           </div>
         )}
         {expenses.length > 0 ? (
